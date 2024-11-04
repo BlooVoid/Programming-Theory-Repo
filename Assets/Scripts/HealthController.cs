@@ -18,6 +18,7 @@ public class HealthController : MonoBehaviour, IHealthController
             }
         }
     }
+
     public int MaxHealth { get => _maxHealth; set => _maxHealth = value; }
 
     public bool IsDead
@@ -33,10 +34,11 @@ public class HealthController : MonoBehaviour, IHealthController
     }
 
     public OnDead _onDead = new OnDead();
+    public OnTakeDamage _onTakeDamage = new OnTakeDamage();
 
-    OnDead IHealthController.onDead { get => _onDead; set => _onDead = value; }
+    public OnDead onDead { get => _onDead; set => _onDead = value; }
+    public OnTakeDamage onTakeDamage { get => _onTakeDamage; set => _onTakeDamage = value; }
 
-    
     public void ChangeHealth(int currentHealth)
     {
         _currentHealth += currentHealth;
@@ -54,6 +56,7 @@ public class HealthController : MonoBehaviour, IHealthController
         if (_currentHealth > 0)
         {
             _currentHealth -= damage;
+            _onTakeDamage.Invoke(gameObject);
         }
     }
 }

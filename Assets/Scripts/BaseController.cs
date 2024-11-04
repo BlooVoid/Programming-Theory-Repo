@@ -27,6 +27,11 @@ public class BaseController : HealthController
         MovementSpeed *= movementSpeed;
     }
 
+    public void ChangeDamage(int damage)
+    {
+        damage += damage;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         //var projectile = other.GetComponent<Projectile>();
