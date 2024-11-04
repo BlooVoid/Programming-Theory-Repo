@@ -8,6 +8,27 @@ public class PlayerController : BaseController
     [SerializeField] private KeyCode moveLeft = KeyCode.A;
     [SerializeField] private KeyCode moveRight = KeyCode.D;
 
+    private Vector2 inputDirection;
+
+    private void Start()
+    {
+        onDead.AddListener((GameObject gameObject) =>
+        {
+            // game over
+        });
+
+        onTakeDamage.AddListener((GameObject gameObject) =>
+        {
+            // indicate to the player that you have taken damage
+        });
+
+        OnFireProjectile.AddListener((Projectile projectile) =>
+        {
+            
+            projectile.ChangeDamage(damageMultiplier);
+        });
+    }
+
     private void Update()
     {
         MovePlayer();
