@@ -8,7 +8,7 @@ public class OnDead : UnityEvent<GameObject> { }
 
 public interface IHealthController
 {
-    OnDead onDead { get; }
+    OnDead onDead { get; set; }
 
     int CurrentHealth { get; set; }
 
@@ -16,10 +16,22 @@ public interface IHealthController
 
     bool IsDead { get; set; }
 
+    /// <summary>
+    /// This will add health (positive and negative values accepted) to the currentHealth
+    /// </summary>
+    /// <param name="addHealth"></param>
     void ChangeHealth(int currentHealth);
 
+    /// <summary>
+    /// This will change the maxHealth of the controller (positive and negative values accepted).
+    /// </summary>
+    /// <param name="maxHealth"></param>
     void ChangeMaxHealth(int maxHealth);
 
+    /// <summary>
+    /// The method to apply damage to an object with HealthController implemented.
+    /// </summary>
+    /// <param name="damage"></param>
     void TakeDamage(int damage);
 }
 
