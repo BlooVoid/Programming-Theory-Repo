@@ -9,31 +9,11 @@ public class PlayerController : BaseController
     [SerializeField] private KeyCode moveDown = KeyCode.S;
     [SerializeField] private KeyCode moveLeft = KeyCode.A;
     [SerializeField] private KeyCode moveRight = KeyCode.D;
-    
-    private Vector2 inputDirection;
 
     protected override void Awake()
     {
         base.Awake();
         Instance = this;
-    }
-
-    private void Start()
-    {
-        onDead.AddListener((GameObject gameObject) =>
-        {
-            // Removed the game over, that will be handled by game manager when player is dead. Maybe some explosion or something here?
-        });
-
-        onTakeDamage.AddListener((GameObject gameObject) =>
-        {
-            // Indicate to the player that you have taken damage.
-        });
-
-        OnFireProjectile.AddListener((Projectile projectile) =>
-        {
-            // Indicate the cotnroller has fired a projectile (sound/effects).
-        });
     }
 
     protected override void Update()
@@ -44,7 +24,7 @@ public class PlayerController : BaseController
 
     private void MovePlayer()
     {
-        inputDirection = Vector2.zero;
+        Vector2 inputDirection = Vector2.zero;
 
         if (Input.GetKey(moveUp))
         {

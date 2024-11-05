@@ -8,9 +8,10 @@ public class BaseController : HealthController
     [SerializeField] protected float _speedMultiplier = 0.5f;
     [SerializeField] protected float movementSmoothing = 10f;
     [Header("Projectile")]
+    [SerializeField] protected bool canFire = true;
     [SerializeField] protected Transform[] firePoints;
     [SerializeField] protected GameObject projectilePrefab;
-    [SerializeField] protected int damageMultiplier = 0; // start at zero, pick up items to increase this value
+    [SerializeField] protected int damageMultiplier = 1; // start at one, pick up items to increase this value (this used to be zero... you can guess why that didn't work.)
     [SerializeField] protected float fireRate = 2f;
 
     
@@ -41,21 +42,24 @@ public class BaseController : HealthController
 
     protected virtual void FireProjectile()
     {
-        timer += Time.deltaTime;
-        if(timer > fireRate)
+        if (canFire)
         {
-            Projectile projectile = null;
-
-            foreach (Transform t in firePoints)
+            timer += Time.deltaTime;
+            if (timer > fireRate)
             {
-                GameObject projectileGO = Instantiate(projectilePrefab, t.position, t.rotation);
-                projectile = projectileGO.GetComponent<Projectile>();
-                projectile.ChangeDamage(damageMultiplier);
+                Projectile projectile = null;
+
+                foreach (Transform t in firePoints)
+                {
+                    GameObject projectileGO = Instantiate(projectilePrefab, t.position, t.rotation);
+                    projectile = projectileGO.GetComponent<Projectile>();
+                    projectile.ChangeDamage(damageMultiplier);
+                }
+
+
+                OnFireProjectile?.Invoke(projectile);
+                timer = 0;
             }
-           
-           
-            OnFireProjectile?.Invoke(projectile);
-            timer = 0;
         }
     }
 }

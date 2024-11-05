@@ -251,6 +251,7 @@ MonoBehaviour:
   _currentHealth: 0
   _maxHealth: 100
   fillHealthOnStart: 1
+  _isDead: 0
   _onDead:
     m_PersistentCalls:
       m_Calls: []
@@ -260,11 +261,13 @@ MonoBehaviour:
   _movementSpeed: 2
   _speedMultiplier: 0.5
   movementSmoothing: 10
+  canFire: 1
   firePoints:
   - {fileID: 4929920945000641767}
-  projectilePrefab: {fileID: 2741769570703676172, guid: 9e35dfbc15274164b8128f39f52a5d73, type: 3}
-  damageMultiplier: 0
+  projectilePrefab: {fileID: 2741769570703676172, guid: 4b4058862d352c647bb802a843f97df2, type: 3}
+  damageMultiplier: 1
   fireRate: 2
   OnFireProjectile:
     m_PersistentCalls:
       m_Calls: []
+  _scoreMultiplier: 2

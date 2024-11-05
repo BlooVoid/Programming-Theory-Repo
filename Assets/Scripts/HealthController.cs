@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class HealthController : MonoBehaviour, IHealthController
@@ -48,8 +49,8 @@ public class HealthController : MonoBehaviour, IHealthController
         }
     }
 
-    private OnDead _onDead = new OnDead();
-    private OnTakeDamage _onTakeDamage = new OnTakeDamage();
+    public OnDead _onDead = new OnDead();
+    public OnTakeDamage _onTakeDamage = new OnTakeDamage();
 
     public OnDead onDead { get => _onDead; set => _onDead = value; }
     public OnTakeDamage onTakeDamage { get => _onTakeDamage; set => _onTakeDamage = value; }
@@ -65,7 +66,10 @@ public class HealthController : MonoBehaviour, IHealthController
         MaxHealth += maxHealth;
     }
 
-    
+    /// <summary>
+    /// Take a passed through amount of damage
+    /// </summary>
+    /// <param name="damage"></param>
     public void TakeDamage(int damage)
     {
         if (damage > 0)
@@ -76,5 +80,17 @@ public class HealthController : MonoBehaviour, IHealthController
                 onTakeDamage.Invoke(gameObject);
             }
         } 
+    }
+
+    /// <summary>
+    /// Take a static set amount of damage
+    /// </summary>
+    public void TakeDamage()
+    {
+        if (CurrentHealth >= 0)
+        {
+            CurrentHealth -= 25;
+            onTakeDamage.Invoke(gameObject);
+        }
     }
 }

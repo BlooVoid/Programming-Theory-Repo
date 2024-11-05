@@ -9,6 +9,8 @@ public class EnemyController : BaseController
     private void OnDestroy()
     {
         onDead.RemoveAllListeners();
+        onTakeDamage.RemoveAllListeners();
+        OnFireProjectile.RemoveAllListeners();
     }
 
     private void Start()
@@ -17,10 +19,5 @@ public class EnemyController : BaseController
         {
             Destroy(gameObject);
         });
-    }
-
-    protected override void Update()
-    {
-        base.Update();
     }
 }

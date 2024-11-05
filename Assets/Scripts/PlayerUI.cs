@@ -9,8 +9,6 @@ public class PlayerUI : MonoBehaviour
 
     private PlayerController pController;
 
-    private float timer;
-
     private void Awake()
     {
         pController = GetComponentInParent<PlayerController>();

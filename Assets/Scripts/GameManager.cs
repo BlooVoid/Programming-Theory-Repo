@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance;
+
     [SerializeField] private GameObject[] enemyPrefabs;
 
     [SerializeField] private Transform[] enemySpawnPoints;
@@ -16,6 +18,11 @@ public class GameManager : MonoBehaviour
     private int _score;
 
     public int Score { get => _score; private set { _score = value; } }
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     private void Update()
     {
