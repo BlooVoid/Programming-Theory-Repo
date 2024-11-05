@@ -2,7 +2,10 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Net.Sockets;
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -17,6 +20,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject[] enemyPrefabs;
 
     [SerializeField] private Transform[] enemySpawnPoints;
+    public bool isGameOver = false;
 
     private List<GameObject> enemiesList = new List<GameObject>();
 
@@ -33,11 +37,22 @@ public class GameManager : MonoBehaviour
 
     public Action OnTimerStart;
     public Action OnTimerStop;
+    public UnityEvent OnGameOver;
 
     private void Awake()
     {
         Instance = this;
         shouldSpawnWave = enemiesList.Count <= 0;
+    }
+
+    private void Start()
+    {
+        PlayerController.Instance.onDead.AddListener((GameObject gameObject) =>
+        {
+            isGameOver = true;
+            DataManager.Instance.CheckBestPlayer();
+            OnGameOver?.Invoke();
+        });
     }
 
     private void Update()
@@ -46,7 +61,7 @@ public class GameManager : MonoBehaviour
         {
             if (timer == timerMax)
             {
-                OnTimerStart();
+                OnTimerStart?.Invoke();
             }
 
             timer -= Time.deltaTime;
@@ -56,7 +71,7 @@ public class GameManager : MonoBehaviour
             {
                 SpawnEnemies();
                 timer = timerMax;
-                OnTimerStop();
+                OnTimerStop?.Invoke();
                 shouldSpawnWave = false;
             }
         }
@@ -78,9 +93,10 @@ public class GameManager : MonoBehaviour
                 enemyController.onDead.AddListener((GameObject gameOject) =>
                 {
                     Score += enemyController.ScoreMultiplier;
+                    DataManager.Instance.SetScore(Score);
                     onUpdateScore?.Invoke(Score);
                     enemiesList.Remove(gameOject);
-                    shouldSpawnWave = enemiesList.Count <= 0; // moved to on dead event so it isnt checking every frame
+                    shouldSpawnWave = enemiesList.Count <= 0;
                 });
             }
 
