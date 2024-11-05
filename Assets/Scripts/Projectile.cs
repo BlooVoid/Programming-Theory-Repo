@@ -5,7 +5,7 @@ public class Projectile : MonoBehaviour
     [SerializeField] private float movementSpeed = 5f;
     [SerializeField] private int damage = 5;
 
-    public int Damage { get => damage; private set => damage = value; }
+    public int Damage { get => damage; protected set => damage = value; }
 
     private void Update()
     {
@@ -15,16 +15,5 @@ public class Projectile : MonoBehaviour
     public void ChangeDamage(int damageMultiplier)
     {
         Damage *= damageMultiplier;
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        var baseController = other.GetComponent<BaseController>();
-
-        if (baseController != null)
-        {
-            Debug.Log("Should take damage now");
-            baseController.TakeDamage(damage);
-        }
     }
 }
