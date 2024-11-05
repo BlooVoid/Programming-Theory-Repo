@@ -9,7 +9,7 @@ public class Projectile : MonoBehaviour
 
     private void Update()
     {
-        transform.position += movementSpeed * Time.deltaTime * transform.forward;
+        transform.position += movementSpeed * Time.deltaTime * transform.up;
     }
 
     public void ChangeDamage(int damageMultiplier)

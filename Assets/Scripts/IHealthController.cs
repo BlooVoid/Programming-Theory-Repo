@@ -15,9 +15,9 @@ public interface IHealthController
 
     OnTakeDamage onTakeDamage { get; set; }
 
-    int CurrentHealth { get; set; }
+    float CurrentHealth { get; set; }
 
-    int MaxHealth { get; set; }
+    float MaxHealth { get; set; }
 
     bool IsDead { get; set; }
 

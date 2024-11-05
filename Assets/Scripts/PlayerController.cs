@@ -2,13 +2,21 @@ using UnityEngine;
 
 public class PlayerController : BaseController
 {
+    public static PlayerController Instance { get; private set; }
+
     [Header("Movement Input")]
     [SerializeField] private KeyCode moveUp = KeyCode.W;
     [SerializeField] private KeyCode moveDown = KeyCode.S;
     [SerializeField] private KeyCode moveLeft = KeyCode.A;
     [SerializeField] private KeyCode moveRight = KeyCode.D;
-
+    
     private Vector2 inputDirection;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        Instance = this;
+    }
 
     private void Start()
     {
@@ -24,13 +32,13 @@ public class PlayerController : BaseController
 
         OnFireProjectile.AddListener((Projectile projectile) =>
         {
-            
-            projectile.ChangeDamage(damageMultiplier);
+            // indicate the cotnroller has fired a projectile (sound/effects)
         });
     }
 
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
         MovePlayer();
     }
 
@@ -81,5 +89,10 @@ public class PlayerController : BaseController
         }
 
         transform.position += MovementSpeed * Time.deltaTime * (Vector3)inputDirection;
+    }
+
+    public float GetHealthNormailzed()
+    {
+        return Mathf.Clamp01(CurrentHealth / MaxHealth);
     }
 }

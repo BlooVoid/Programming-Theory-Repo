@@ -3,11 +3,11 @@ using UnityEngine;
 public class HealthController : MonoBehaviour, IHealthController
 {
     [Header("Health")]
-    [SerializeField] private int _currentHealth;
-    [SerializeField] private int _maxHealth = 100;
+    [SerializeField] protected float _currentHealth;
+    [SerializeField] protected float _maxHealth = 100;
     [SerializeField] protected bool fillHealthOnStart = true;
 
-    public int CurrentHealth 
+    public float CurrentHealth 
     { 
         get => _currentHealth;
         set
@@ -19,7 +19,7 @@ public class HealthController : MonoBehaviour, IHealthController
         }
     }
 
-    public int MaxHealth { get => _maxHealth; set => _maxHealth = value; }
+    public float MaxHealth { get => _maxHealth; set => _maxHealth = value; }
 
     public bool IsDead
     {
