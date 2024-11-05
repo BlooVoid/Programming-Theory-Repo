@@ -37,33 +37,27 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        shouldSpawnWave = enemiesList.Count <= 0;
     }
 
     private void Update()
     {
-        if(enemiesList.Count <= 0 && !shouldSpawnWave)
+        if (shouldSpawnWave)
         {
-            shouldSpawnWave = true;
-        }
-        else if (enemiesList.Count == enemySpawnPoints.Length && shouldSpawnWave)
-        {
-            shouldSpawnWave = false;
-        }
-
-        if(shouldSpawnWave)
-        {
-            OnTimerStart();
+            if (timer == timerMax)
+            {
+                OnTimerStart();
+            }
 
             timer -= Time.deltaTime;
-
             onUpdateTimer?.Invoke(timer);
 
-            if(timer <= 0)
+            if (timer <= 0)
             {
                 SpawnEnemies();
                 timer = timerMax;
-
                 OnTimerStop();
+                shouldSpawnWave = false;
             }
         }
     }
@@ -72,10 +66,10 @@ public class GameManager : MonoBehaviour
     {
         foreach(Transform t in enemySpawnPoints)
         {
-            int randomValue = UnityEngine.Random.Range(0, enemySpawnPoints.Length - 1);
+            int randomValue = UnityEngine.Random.Range(0, enemyPrefabs.Length);
             float enemyRotation = -180f;
 
-            GameObject enemyGO = Instantiate(enemyPrefabs[0], t.position, Quaternion.Euler(0f, 0f, enemyRotation));
+            GameObject enemyGO = Instantiate(enemyPrefabs[randomValue], t.position, Quaternion.Euler(0f, 0f, enemyRotation));
 
             var enemyController = enemyGO.GetComponent<EnemyController>();
 
@@ -86,6 +80,7 @@ public class GameManager : MonoBehaviour
                     Score += enemyController.ScoreMultiplier;
                     onUpdateScore?.Invoke(Score);
                     enemiesList.Remove(gameOject);
+                    shouldSpawnWave = enemiesList.Count <= 0; // moved to on dead event so it isnt checking every frame
                 });
             }
 
