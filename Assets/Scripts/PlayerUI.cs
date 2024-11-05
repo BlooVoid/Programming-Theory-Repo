@@ -1,12 +1,17 @@
+using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerUI : MonoBehaviour
 {
+    [Header("Health")]
     [SerializeField] private Image healthFillImage;
     [SerializeField] private float fillSmoothing = 0.5f;
-
+    [Header("Score")]
+    [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private TextMeshProUGUI timerText;
     private PlayerController pController;
 
     private void Awake()
@@ -18,22 +23,36 @@ public class PlayerUI : MonoBehaviour
     {
         StartCoroutine(UpdateHealthBar());
 
-        pController.onTakeDamage.AddListener((GameObject gameObject) =>
+        pController.onTakeDamage.AddListener(() =>
         {
-            StartCoroutine(UpdateHealthBar()); // Had to move to coroutine to update the lerping
+            StartCoroutine(UpdateHealthBar()); 
         });
+
+        GameManager.Instance.onUpdateScore += GameManager_onUpdateScore;
+        GameManager.Instance.onUpdateTimer += GameManager_onUpdateTimer;
+
+        GameManager.Instance.OnTimerStart += ShowTimerText;
+        GameManager.Instance.OnTimerStop += HideTimerText;
     }
 
-    private void Update()
+    private void GameManager_onUpdateTimer(float time)
     {
-        // removed from update to the event, that way it isnt always updating, only when it should.
-        //healthFillImage.fillAmount = Mathf.Lerp(healthFillImage.fillAmount, pController.GetHealthNormailzed(), fillSmoothing * Time.deltaTime);
+        timerText.text = Mathf.CeilToInt(time).ToString();
+    }
 
-        //Debug
+    private void GameManager_onUpdateScore(int score)
+    {
+        scoreText.text = $"SCORE: {score}";
+    }
 
-        //Debug.Log("Normalized Health: " + pController.GetHealthNormailzed());
-        //Debug.Log("Current Health: " + pController.CurrentHealth);
-        //Debug.Log("Max Health: " + pController.MaxHealth);
+    private void ShowTimerText()
+    {
+        timerText.gameObject.SetActive(true);
+    }
+
+    private void HideTimerText()
+    {
+        timerText.gameObject.SetActive(false);
     }
 
     private IEnumerator UpdateHealthBar()

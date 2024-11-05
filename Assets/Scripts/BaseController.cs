@@ -5,20 +5,21 @@ public class BaseController : HealthController
 {
     [Header("Movement")]
     [SerializeField] protected float _movementSpeed = 2f;
-    [SerializeField] protected float _speedMultiplier = 0.5f;
+    [SerializeField] protected float _speedModifier = 1f;
     [SerializeField] protected float movementSmoothing = 10f;
     [Header("Projectile")]
     [SerializeField] protected bool canFire = true;
     [SerializeField] protected Transform[] firePoints;
     [SerializeField] protected GameObject projectilePrefab;
-    [SerializeField] protected int damageMultiplier = 1; // start at one, pick up items to increase this value (this used to be zero... you can guess why that didn't work.)
+    [SerializeField] protected float projectileSpeedModifier = 0f;
+    [SerializeField] protected int damageMultiplier = 1; 
     [SerializeField] protected float fireRate = 2f;
 
     
     public float MovementSpeed { get => _movementSpeed; protected set => _movementSpeed = value;  }
-    public float SpeedMultiplier { get => _speedMultiplier; protected set => _speedMultiplier = value; }
+    public float SpeedModifier { get => _speedModifier; protected set => _speedModifier = value; }
 
-    public UnityEvent<Projectile> OnFireProjectile;
+    public UnityEvent OnFireProjectile;
 
     private float timer;
 
@@ -35,9 +36,9 @@ public class BaseController : HealthController
         FireProjectile();
     }
 
-    public virtual void ChangeSpeed()
+    public virtual void ChangeSpeed(float modifier)
     {
-        MovementSpeed *= _speedMultiplier;
+        MovementSpeed += modifier;
     }
 
     protected virtual void FireProjectile()
@@ -47,17 +48,16 @@ public class BaseController : HealthController
             timer += Time.deltaTime;
             if (timer > fireRate)
             {
-                Projectile projectile = null;
 
                 foreach (Transform t in firePoints)
                 {
                     GameObject projectileGO = Instantiate(projectilePrefab, t.position, t.rotation);
-                    projectile = projectileGO.GetComponent<Projectile>();
+                    Projectile projectile = projectileGO.GetComponent<Projectile>();
+                    projectile.ChangeMovementSpeed(projectileSpeedModifier);
                     projectile.ChangeDamage(damageMultiplier);
                 }
 
-
-                OnFireProjectile?.Invoke(projectile);
+                OnFireProjectile?.Invoke();
                 timer = 0;
             }
         }

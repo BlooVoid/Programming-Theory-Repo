@@ -7,7 +7,7 @@ using UnityEngine.Events;
 public class OnDead : UnityEvent<GameObject> { }
 
 [System.Serializable]
-public class OnTakeDamage : UnityEvent<GameObject> { }
+public class OnTakeDamage : UnityEvent { }
 
 public interface IHealthController
 {

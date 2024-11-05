@@ -2,39 +2,32 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
-    [SerializeField] private float _masterVolume = 1.0f;
-
+    [Header("Volume")]
+    [SerializeField] private float _fireSoundsVolume = 1.0f;
+    [SerializeField] private float _damageSoundsVolume = 1.0f;
+    [SerializeField] private float _deathSoundsVolume = 1.0f;
+    [Header("Audio Clips")]
     [SerializeField] private AudioClip[] fireSounds;
     [SerializeField] private AudioClip[] damageSounds;
     [SerializeField] private AudioClip[] deathSounds;
-
-    public float MasterVolume 
-    { 
-        get => _masterVolume; 
-        set 
-        { 
-            _masterVolume = value; 
-            _masterVolume = Mathf.Clamp(_masterVolume, 0.0f, 1.0f);
-        }
-    }
 
     private void Start()
     {
         var playerController = PlayerController.Instance;
 
-        playerController.OnFireProjectile.AddListener((Projectile projectile) =>
+        playerController.OnFireProjectile.AddListener(() =>
         {
-            PlayClipAtPoint(fireSounds, playerController.transform.position, MasterVolume);
+            PlayClipAtPoint(fireSounds, playerController.transform.position, _fireSoundsVolume);
         });
 
-        playerController.onTakeDamage.AddListener((GameObject gameObject) =>
+        playerController.onTakeDamage.AddListener(() =>
         {
-            PlayClipAtPoint(damageSounds, playerController.transform.position, MasterVolume);
+            PlayClipAtPoint(damageSounds, playerController.transform.position, _damageSoundsVolume);
         });
 
         playerController.onDead.AddListener((GameObject gameObject) =>
         {
-            PlayClipAtPoint(deathSounds, playerController.transform.position, MasterVolume);
+            PlayClipAtPoint(deathSounds, playerController.transform.position, _deathSoundsVolume);
         });
     }
 

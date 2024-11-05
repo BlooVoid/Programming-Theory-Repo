@@ -16,4 +16,9 @@ public class Projectile : MonoBehaviour
     {
         Damage *= damageMultiplier;
     }
+
+    public void ChangeMovementSpeed(float speedModifier)
+    {
+        movementSpeed += speedModifier;
+    }
 }

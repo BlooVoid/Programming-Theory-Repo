@@ -77,7 +77,7 @@ public class HealthController : MonoBehaviour, IHealthController
             if (CurrentHealth >= 0)
             {
                 CurrentHealth -= damage;
-                onTakeDamage.Invoke(gameObject);
+                onTakeDamage.Invoke();
             }
         } 
     }
@@ -90,7 +90,7 @@ public class HealthController : MonoBehaviour, IHealthController
         if (CurrentHealth >= 0)
         {
             CurrentHealth -= 25;
-            onTakeDamage.Invoke(gameObject);
+            onTakeDamage.Invoke();
         }
     }
 }
