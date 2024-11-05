@@ -22,17 +22,17 @@ public class PlayerController : BaseController
     {
         onDead.AddListener((GameObject gameObject) =>
         {
-            // game over
+            // Removed the game over, that will be handled by game manager when player is dead. Maybe some explosion or something here?
         });
 
         onTakeDamage.AddListener((GameObject gameObject) =>
         {
-            // indicate to the player that you have taken damage
+            // Indicate to the player that you have taken damage.
         });
 
         OnFireProjectile.AddListener((Projectile projectile) =>
         {
-            // indicate the cotnroller has fired a projectile (sound/effects)
+            // Indicate the cotnroller has fired a projectile (sound/effects).
         });
     }
 

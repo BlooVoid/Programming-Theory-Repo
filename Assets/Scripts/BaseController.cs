@@ -48,9 +48,9 @@ public class BaseController : HealthController
 
             foreach (Transform t in firePoints)
             {
-                //GameObject projectileGO = Instantiate(projectilePrefab, t.position, t.rotation);
-                //projectile = projectileGO.GetComponent<Projectile>();
-               // projectile.ChangeDamage(damageMultiplier);
+                GameObject projectileGO = Instantiate(projectilePrefab, t.position, t.rotation);
+                projectile = projectileGO.GetComponent<Projectile>();
+                projectile.ChangeDamage(damageMultiplier);
             }
            
            

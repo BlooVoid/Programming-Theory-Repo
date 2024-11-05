@@ -17,16 +17,14 @@ public class Projectile : MonoBehaviour
         Damage *= damageMultiplier;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         var baseController = other.GetComponent<BaseController>();
 
         if (baseController != null)
         {
-            if(baseController is PlayerController playerController)
-            {
-                baseController.TakeDamage(damage);
-            }
+            Debug.Log("Should take damage now");
+            baseController.TakeDamage(damage);
         }
     }
 }

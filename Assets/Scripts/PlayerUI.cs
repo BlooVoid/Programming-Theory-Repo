@@ -14,6 +14,11 @@ public class PlayerUI : MonoBehaviour
     private void Awake()
     {
         pController = GetComponentInParent<PlayerController>();
+    }
+
+    private void Start()
+    {
+        StartCoroutine(UpdateHealthBar());
 
         pController.onTakeDamage.AddListener((GameObject gameObject) =>
         {
