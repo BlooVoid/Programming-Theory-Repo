@@ -1,11 +1,7 @@
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using System.Net.Sockets;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -43,6 +39,7 @@ public class GameManager : MonoBehaviour
     {
         Instance = this;
         shouldSpawnWave = enemiesList.Count <= 0;
+        Time.timeScale = 1f;
     }
 
     private void Start()
@@ -52,6 +49,7 @@ public class GameManager : MonoBehaviour
             isGameOver = true;
             DataManager.Instance.CheckBestPlayer();
             OnGameOver?.Invoke();
+            Time.timeScale = 0f;
         });
     }
 

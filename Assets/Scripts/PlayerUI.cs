@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -12,6 +11,10 @@ public class PlayerUI : MonoBehaviour
     [Header("Score")]
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI timerText;
+    [Header("Game Over")]
+    [SerializeField] private GameObject gameOverGO;
+    [SerializeField] private Button exitGameButton;
+    [SerializeField] private Button tryAgainButton;
     private PlayerController pController;
 
     private void Awake()
@@ -33,6 +36,21 @@ public class PlayerUI : MonoBehaviour
 
         GameManager.Instance.OnTimerStart += ShowTimerText;
         GameManager.Instance.OnTimerStop += HideTimerText;
+
+        GameManager.Instance.OnGameOver.AddListener(() =>
+        {
+            gameOverGO.SetActive(true);
+        });
+
+        exitGameButton.onClick.AddListener(() =>
+        {
+            DataManager.Instance.ExitGame();
+        });
+
+        tryAgainButton.onClick.AddListener(() =>
+        {
+            DataManager.Instance.ReloadScene();
+        });
     }
 
     private void GameManager_onUpdateTimer(float time)

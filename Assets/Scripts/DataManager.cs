@@ -28,6 +28,13 @@ public class DataManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         Load();
+
+        Application.quitting += Application_quitting;
+    }
+
+    private void Application_quitting()
+    {
+        CheckBestPlayer();
     }
 
     public void CheckBestPlayer()
